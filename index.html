@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Metro Landmark Housing Society</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --green: #1a6b3c;
+    --green-light: #e8f5ee;
+    --green-mid: #2e8b57;
+    --gold: #c9952a;
+    --dark: #1c1c1e;
+    --mid: #4a4a4a;
+    --soft: #f7f9f7;
+    --white: #ffffff;
+    --red: #c0392b;
+    --blue: #1a5276;
+    --border: #d5e8dc;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--soft); color: var(--dark); }
+  
+  /* ── HEADER ── */
+  header {
+    background: linear-gradient(135deg, var(--green) 0%, #0f4d2a 100%);
+    color: white;
+    padding: 0;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+  }
+  .header-top {
+    background: var(--gold);
+    text-align: center;
+    padding: 6px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  .header-main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 20px 40px;
+    text-align: center;
+    gap: 10px;
+  }
+  .logo-area { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .logo-icon {
+    width: 52px; height: 52px;
+    background: rgba(255,255,255,0.15);
+    border: 2px solid rgba(255,255,255,0.4);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px;
+  }
+  .society-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  .society-sub { font-size: 12px; opacity: 0.75; margin-top: 2px; }
+  .emergency-btn {
+    background: var(--red);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    display: flex; align-items: center; gap: 8px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .emergency-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(192,57,43,0.5); }
+  nav {
+    background: rgba(0,0,0,0.2);
+    display: flex; gap: 0;
+    overflow-x: auto;
+    padding: 0 40px;
+  }
+  nav a {
+    color: rgba(255,255,255,0.8);
+    text-decoration: none;
+    padding: 10px 18px;
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: background 0.2s, color 0.2s;
+    border-bottom: 2px solid transparent;
+  }
+  nav a:hover { background: rgba(255,255,255,0.1); color: white; border-color: var(--gold); }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(to bottom, #e8f5ee, var(--soft));
+    padding: 50px 40px 40px;
+    text-align: center;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 38px; color: var(--green);
+    margin-bottom: 10px;
+  }
+  .hero p { color: var(--mid); font-size: 16px; max-width: 560px; margin: 0 auto 24px; }
+  .stats-row {
+    display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;
+  }
+  .stat-box {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 30px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(26,107,60,0.08);
+  }
+  .stat-num { font-size: 28px; font-weight: 700; color: var(--green); font-family: 'Playfair Display', serif; }
+  .stat-label { font-size: 12px; color: var(--mid); margin-top: 4px; }
+
+  /* ── SECTIONS ── */
+  section { padding: 48px 40px; max-width: 1100px; margin: 0 auto; }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px; color: var(--green);
+    border-left: 4px solid var(--gold);
+    padding-left: 14px;
+    margin-bottom: 28px;
+  }
+
+  /* ── NOTICE BOARD ── */
+  #notices { background: white; max-width: 100%; padding: 48px 0; }
+  #notices > .inner { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
+  .notice-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 18px; }
+  .notice-card {
+    border-radius: 10px;
+    padding: 18px 20px;
+    border-left: 5px solid;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    animation: fadeUp 0.4s ease both;
+  }
+  .notice-card.urgent { background: #fff5f5; border-color: var(--red); }
+  .notice-card.general { background: #f0f6ff; border-color: var(--blue); }
+  .notice-card.info { background: var(--green-light); border-color: var(--green); }
+  .notice-tag {
+    font-size: 10px; font-weight: 700; letter-spacing: 1px;
+    text-transform: uppercase; padding: 2px 8px; border-radius: 20px;
+    display: inline-block; margin-bottom: 8px;
+  }
+  .urgent .notice-tag { background: var(--red); color: white; }
+  .general .notice-tag { background: var(--blue); color: white; }
+  .info .notice-tag { background: var(--green); color: white; }
+  .notice-title { font-weight: 600; font-size: 15px; margin-bottom: 6px; }
+  .notice-body { font-size: 13px; color: var(--mid); line-height: 1.6; }
+  .notice-date { font-size: 11px; color: #999; margin-top: 10px; }
+
+  /* ── FACILITIES ── */
+  .facilities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 16px;
+  }
+  .facility-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 10px;
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: default;
+  }
+  .facility-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(26,107,60,0.12); }
+  .facility-icon { font-size: 30px; margin-bottom: 8px; }
+  .facility-name { font-size: 12px; font-weight: 600; color: var(--dark); }
+  .facility-status { font-size: 10px; color: var(--green); margin-top: 4px; }
+
+  /* ── MAINTENANCE ── */
+  .maintenance-card {
+    background: linear-gradient(135deg, var(--green) 0%, var(--green-mid) 100%);
+    color: white;
+    border-radius: 16px;
+    padding: 32px;
+    display: flex; flex-wrap: wrap; gap: 30px; align-items: center;
+    justify-content: space-between;
+  }
+  .maint-amount { font-family: 'Playfair Display', serif; font-size: 48px; font-weight: 700; }
+  .maint-label { font-size: 13px; opacity: 0.8; margin-top: 4px; }
+  .maint-due {
+    background: rgba(255,255,255,0.2);
+    border-radius: 10px; padding: 14px 20px; font-size: 14px;
+  }
+  .maint-due strong { display: block; font-size: 20px; }
+  .payment-modes { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+  .pay-chip {
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.4);
+    border-radius: 20px;
+    padding: 5px 14px; font-size: 12px; font-weight: 600;
+  }
+  .upi-box {
+    background: white; color: var(--dark);
+    border-radius: 10px; padding: 14px 20px; font-size: 13px;
+    margin-top: 16px;
+  }
+  .upi-id { font-size: 16px; font-weight: 700; color: var(--green); letter-spacing: 0.5px; }
+
+  /* ── COMMITTEE ── */
+  .committee-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+  }
+  .member-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    transition: transform 0.2s;
+  }
+  .member-card:hover { transform: translateY(-3px); }
+  .member-avatar {
+    width: 64px; height: 64px;
+    background: var(--green-light);
+    border: 3px solid var(--green);
+    border-radius: 50%;
+    margin: 0 auto 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+  }
+  .member-role {
+    font-size: 10px; font-weight: 700; letter-spacing: 1px;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 4px;
+  }
+  .member-name { font-weight: 700; font-size: 16px; margin-bottom: 10px; }
+  .member-contact { font-size: 12px; color: var(--mid); line-height: 1.8; }
+  .member-contact a { color: var(--green); text-decoration: none; font-weight: 600; }
+
+  /* ── RULES ── */
+  .rules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+  }
+  .rule-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+  }
+  .rule-header {
+    display: flex; align-items: center; gap: 10px;
+    font-weight: 700; font-size: 14px; margin-bottom: 10px;
+  }
+  .rule-icon { font-size: 20px; }
+  .rule-list { list-style: none; }
+  .rule-list li {
+    font-size: 12px; color: var(--mid);
+    padding: 4px 0;
+    border-bottom: 1px solid #f0f0f0;
+    padding-left: 14px;
+    position: relative;
+  }
+  .rule-list li::before {
+    content: "›";
+    position: absolute; left: 0;
+    color: var(--green); font-weight: 700;
+  }
+  .rule-list li:last-child { border-bottom: none; }
+
+  /* ── TEAM MLM MASTI ── */
+  .masti-block { background: white; border: 1px solid var(--border); border-radius: 16px; padding: 24px; }
+  .masti-header { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+  .masti-icon { font-size: 32px; }
+  .masti-title { font-family: 'Playfair Display', serif; font-size: 20px; color: var(--green); font-weight: 700; }
+  .masti-sub { font-size: 12px; color: var(--mid); margin-top: 2px; }
+  .photo-upload-area {
+    border: 2px dashed var(--border);
+    border-radius: 12px;
+    min-height: 160px;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    padding: 16px;
+    position: relative;
+  }
+  .photo-upload-area:hover { border-color: var(--green); background: var(--green-light); }
+  .upload-placeholder { text-align: center; padding: 30px; color: var(--mid); }
+  .photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+  .photo-grid img { width: 100%; height: 140px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: transform 0.2s; }
+  .photo-grid img:hover { transform: scale(1.03); }
+
+  /* ── DOCUMENTS ── */
+  .docs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+  .doc-card {
+    display: flex; align-items: center; gap: 16px;
+    background: var(--soft);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 20px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+  }
+  .doc-card:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(26,107,60,0.1); }
+  .doc-icon { font-size: 28px; flex-shrink: 0; }
+  .doc-info { flex: 1; }
+  .doc-title { font-weight: 700; font-size: 14px; color: var(--dark); }
+  .doc-desc { font-size: 12px; color: var(--mid); margin-top: 3px; }
+  .doc-badge {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.5px;
+    background: var(--green-light); color: var(--green);
+    border: 1px solid var(--border);
+    border-radius: 20px; padding: 3px 10px;
+    white-space: nowrap; flex-shrink: 0;
+  }
+
+  /* ── EMERGENCY ── */
+  #emergency { background: #fff8f0; max-width: 100%; padding: 48px 0; }
+  #emergency .inner { max-width: 1100px; margin: 0 auto; padding: 0 40px; }
+  .emergency-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 14px;
+  }
+  .em-card {
+    background: white;
+    border: 1px solid #fde8d4;
+    border-top: 4px solid;
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+  }
+  .em-card.security { border-top-color: var(--green); }
+  .em-card.fire { border-top-color: #e74c3c; }
+  .em-card.medical { border-top-color: #e74c3c; }
+  .em-card.electric { border-top-color: #f39c12; }
+  .em-card.water { border-top-color: #3498db; }
+  .em-card.manager { border-top-color: var(--green-mid); }
+  .em-icon { font-size: 26px; margin-bottom: 8px; }
+  .em-label { font-size: 11px; color: var(--mid); margin-bottom: 4px; }
+  .em-name { font-size: 12px; font-weight: 700; }
+  .em-number { font-size: 16px; font-weight: 700; color: var(--green); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--dark);
+    color: rgba(255,255,255,0.7);
+    padding: 32px 40px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.9;
+  }
+  footer strong { color: white; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .fade-in { animation: fadeUp 0.5s ease both; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 640px) {
+    .header-main { padding: 14px 20px; }
+    nav { padding: 0 10px; }
+    section { padding: 36px 20px; }
+    #notices .inner, #emergency .inner { padding: 0 20px; }
+    .hero { padding: 30px 20px; }
+    .hero h1 { font-size: 26px; }
+    .maintenance-card { flex-direction: column; }
+    footer { padding: 24px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-top">📢 Maintenance Due: 5th of every month &nbsp;|&nbsp; Water Supply: 6–8 AM &nbsp;|&nbsp; Gate Closes: 11:00 PM</div>
+  <div class="header-main">
+    <div class="logo-area">
+      <div class="logo-icon">🏡</div>
+      <div>
+        <div class="society-name">Metro Landmark Housing Society</div>
+        <div class="society-sub">Survey Nos. 1088 &amp; 1089, Medchal – 501401, Telangana</div>
+        <div class="society-sub" style="margin-top:3px;">📞 80086 55428 &nbsp;·&nbsp; ✉️ Medchalmlm&#64;gmail.com</div>
+        <div class="society-sub" style="margin-top:4px;">
+          <a href="https://www.google.com/maps/@17.6390336,78.4684369,186m/data=!3m1!1e3?entry=ttu&g_ep=EgoyMDI2MDMwOC4wIKXMDSoASAFQAw%3D%3D" target="_blank" style="color:rgba(255,255,255,0.85);text-decoration:none;">📍 View on Google Maps</a>
+        </div>
+      </div>
+    </div>
+    <a href="tel:+918008655428" class="emergency-btn" style="margin-top:6px;">📞 80086 55428</a>
+  </div>
+  <nav>
+    <a href="#notices">📋 Notices</a>
+    <a href="#facilities">🏊 Facilities</a>
+    <a href="#maintenance">💳 Maintenance</a>
+    <a href="#committee">👥 Team MLM</a>
+    <a href="#rules">📜 Rules</a>
+    <a href="#masti">🎉 MLM Masti</a>
+    <a href="#documents">📄 Documents</a>
+    <a href="#emergency">☎️ Emergency</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>Welcome to Metro Landmark Housing Society</h1>
+  <p>A vibrant gated community — where neighbours become family.</p>
+</div>
+
+<!-- NOTICE BOARD -->
+<div id="notices">
+  <div class="inner">
+    <h2 class="section-title">📋 Notice Board</h2>
+    <div class="notice-grid">
+      <div class="notice-card urgent fade-in">
+        <span class="notice-tag">Urgent</span>
+        <div class="notice-title">Tenant Information — Society Records</div>
+        <div class="notice-body">Dear Owners/Tenants,<br/><br/>We are collecting tenant information for society records. Kindly cooperate for the safety and security of our community.<br/><br/>A gentle reminder to please inform the Committee whenever your tenant is vacating or a new tenant is moving in. This helps us keep our society records up to date. Your cooperation is sincerely appreciated. Thank you!</div>
+        <div class="notice-date">📅 Posted: 10 Mar 2026 &nbsp;|&nbsp; By: Secretary</div>
+      </div>
+      <div class="notice-card general fade-in">
+        <span class="notice-tag">General</span>
+        <div class="notice-title">Annual General Meeting — 1 March 2026</div>
+        <div class="notice-body">The AGM was held on 1 March 2026. We are pleased to inform all residents that a new committee has been elected and is now in place to serve our community.</div>
+        <div class="notice-date">📅 Posted: 1 Mar 2026 &nbsp;|&nbsp; By: President</div>
+      </div>
+
+      <div class="notice-card info fade-in">
+        <span class="notice-tag">New Rule</span>
+        <div class="notice-title">Vehicle Sticker Mandatory from April</div>
+        <div class="notice-body">From 1 April 2026, all resident vehicles must display the society sticker for entry. Collect yours from the security office. Guest vehicles must register at the gate.</div>
+        <div class="notice-date">📅 Posted: 5 Mar 2026 &nbsp;|&nbsp; By: Security Head</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FACILITIES -->
+<section id="facilities">
+  <h2 class="section-title">🏊 Facilities &amp; Amenities</h2>
+  <div class="facilities-grid">
+    <div class="facility-card"><div class="facility-icon">🌿</div><div class="facility-name">Parks</div><div class="facility-status">6 AM – 9 PM</div></div>
+    <div class="facility-card"><div class="facility-icon">🧒</div><div class="facility-name">Play Area</div><div class="facility-status">6 AM – 9 PM</div></div>
+    <div class="facility-card"><div class="facility-icon">📹</div><div class="facility-name">CCTV Surveillance</div><div class="facility-status">24/7</div></div>
+    <div class="facility-card"><div class="facility-icon">💂</div><div class="facility-name">Security Guard</div><div class="facility-status">24/7</div></div>
+  </div>
+</section>
+
+<!-- MAINTENANCE -->
+<section id="maintenance">
+  <h2 class="section-title">💳 Maintenance &amp; Payments</h2>
+  <div class="maintenance-card">
+    <div>
+      <div class="maint-amount" style="font-size:28px;margin-bottom:6px;">Bank Transfer</div>
+      <div class="maint-label">Pay monthly maintenance via NEFT / IMPS / RTGS</div>
+      <div class="payment-modes" style="margin-top:14px;">
+        <span class="pay-chip">NEFT</span>
+        <span class="pay-chip">IMPS</span>
+        <span class="pay-chip">RTGS</span>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px;min-width:260px;">
+      <div class="maint-due">
+        <div style="font-size:10px;opacity:0.75;text-transform:uppercase;letter-spacing:0.5px;">Account Name</div>
+        <strong style="font-size:15px;">Metro Landmark Welfare Association</strong>
+      </div>
+      <div class="maint-due">
+        <div style="font-size:10px;opacity:0.75;text-transform:uppercase;letter-spacing:0.5px;">Account Number</div>
+        <strong style="font-size:18px;letter-spacing:1px;">217701000003932</strong>
+      </div>
+      <div class="maint-due">
+        <div style="font-size:10px;opacity:0.75;text-transform:uppercase;letter-spacing:0.5px;">IFSC Code</div>
+        <strong style="font-size:18px;letter-spacing:1px;">IOBA0002177</strong>
+      </div>
+      <div class="maint-due">
+        <div style="font-size:10px;opacity:0.75;text-transform:uppercase;letter-spacing:0.5px;">Bank &amp; Branch</div>
+        <strong style="font-size:14px;">Indian Overseas Bank</strong>
+        <div style="font-size:12px;margin-top:3px;opacity:0.85;">Medchal Branch</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMMITTEE -->
+<section id="committee">
+  <h2 class="section-title">👥 Team MLM</h2>
+  <div class="committee-grid">
+    <div class="member-card">
+      <div class="member-avatar">👨</div>
+      <div class="member-role">President</div>
+      <div class="member-name">Mr. Pradeep</div>
+    </div>
+    <div class="member-card">
+      <div class="member-avatar">👩</div>
+      <div class="member-role">Vice-President</div>
+      <div class="member-name">Ms. Priyanka</div>
+    </div>
+    <div class="member-card">
+      <div class="member-avatar">👨</div>
+      <div class="member-role">Treasurer</div>
+      <div class="member-name">Mr. Ramesh Raju</div>
+    </div>
+    <div class="member-card">
+      <div class="member-avatar">👨</div>
+      <div class="member-role">General Secretary</div>
+      <div class="member-name">Mr. Shankar</div>
+    </div>
+    <div class="member-card">
+      <div class="member-avatar">👨</div>
+      <div class="member-role">Joint Secretary</div>
+      <div class="member-name">Mr. Siva</div>
+    </div>
+    <div class="member-card">
+      <div class="member-avatar">👨</div>
+      <div class="member-role">Executive Member</div>
+      <div class="member-name">Mr. Haresh</div>
+    </div>
+    <div class="member-card">
+      <div class="member-avatar">👨</div>
+      <div class="member-role">Executive Member</div>
+      <div class="member-name">Mr. Praveen</div>
+    </div>
+  </div>
+</section>
+
+<!-- RULES -->
+<section id="rules">
+  <h2 class="section-title">📜 Society Rules &amp; Bylaws</h2>
+  <div class="rules-grid">
+    <div class="rule-card">
+      <div class="rule-header"><span class="rule-icon">🚶</span> Visitor Policy</div>
+      <ul class="rule-list">
+        <li>All visitors must register at the gate</li>
+        <li>Maids, helpers &amp; construction workers must have a valid entry pass</li>
+        <li>No unapproved commercial activity</li>
+      </ul>
+    </div>
+    <div class="rule-card">
+      <div class="rule-header"><span class="rule-icon">🔇</span> Noise &amp; Timings</div>
+      <ul class="rule-list">
+        <li>No loud music/TV after 10:00 PM</li>
+        <li>Drilling/construction: 9 AM – 6 PM only</li>
+        <li>Party/event: inform committee 48 hrs prior</li>
+      </ul>
+    </div>
+    <div class="rule-card">
+      <div class="rule-header"><span class="rule-icon">🐶</span> Pet Policy</div>
+      <ul class="rule-list">
+        <li>Keep pets on leash in all common areas</li>
+        <li>Parks are pet-free zones</li>
+        <li>Always carry a disposal bag and clean up promptly</li>
+        <li>Keep pet vaccinations current and valid</li>
+      </ul>
+    </div>
+
+    <div class="rule-card">
+      <div class="rule-header"><span class="rule-icon">🗑️</span> Garbage Disposal</div>
+      <ul class="rule-list">
+        <li>Municipal van collects waste daily — please hand over on time</li>
+        <li>No dumping in parks, roads or common areas</li>
+        <li>Let's keep our society clean and beautiful 🌿</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+<!-- TEAM MLM MASTI -->
+<section id="masti" style="background: linear-gradient(to bottom, #fff8f0, var(--soft)); max-width:100%; padding: 48px 0;">
+  <div style="max-width:1100px; margin:0 auto; padding:0 40px;">
+    <h2 class="section-title">🎉 Team MLM Masti</h2>
+    <p style="color:var(--mid); font-size:14px; margin-bottom:32px;">Moments that make our community shine — celebrations, laughter &amp; togetherness.</p>
+
+    <!-- HOLI -->
+    <div class="masti-block">
+      <div class="masti-header">
+        <span class="masti-icon">🎨</span>
+        <div>
+          <div class="masti-title">Holi Celebrations</div>
+          <div class="masti-sub">3 March 2026</div>
+        </div>
+      </div>
+      <div class="photo-upload-area" id="holi-area" onclick="document.getElementById('holi-input').click()">
+        <input type="file" id="holi-input" accept="image/*" multiple style="display:none" onchange="previewPhotos(this,'holi-grid')"/>
+        <div class="upload-placeholder" id="holi-placeholder">
+          <div style="font-size:36px;">📸</div>
+          <div style="font-weight:600; margin-top:8px;">Click to add Holi photos</div>
+          <div style="font-size:12px; color:#aaa; margin-top:4px;">JPG, PNG supported</div>
+        </div>
+        <div class="photo-grid" id="holi-grid"></div>
+      </div>
+    </div>
+
+    <!-- WOMEN'S DAY -->
+    <div class="masti-block" style="margin-top:32px;">
+      <div class="masti-header">
+        <span class="masti-icon">💐</span>
+        <div>
+          <div class="masti-title">Women's Day Celebrations</div>
+          <div class="masti-sub">8 March 2026</div>
+        </div>
+      </div>
+      <div class="photo-grid" style="margin-top:8px;">
+        <img src="https://raw.githubusercontent.com/medchalmlm/mlm/main/photos/1.jpeg" alt="Women's Day 1" loading="lazy"/>
+        <img src="https://raw.githubusercontent.com/medchalmlm/mlm/main/photos/2.jpeg" alt="Women's Day 2" loading="lazy"/>
+        <img src="https://raw.githubusercontent.com/medchalmlm/mlm/main/photos/3.jpeg" alt="Women's Day 3" loading="lazy"/>
+        <img src="https://raw.githubusercontent.com/medchalmlm/mlm/main/photos/4.jpeg" alt="Women's Day 4" loading="lazy"/>
+        <img src="https://raw.githubusercontent.com/medchalmlm/mlm/main/photos/5.jpeg" alt="Women's Day 5" loading="lazy"/>
+        <img src="https://raw.githubusercontent.com/medchalmlm/mlm/main/photos/6.jpeg" alt="Women's Day 6" loading="lazy"/>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DOCUMENTS -->
+<section id="documents" style="background:white; max-width:100%; padding:48px 0;">
+  <div style="max-width:1100px; margin:0 auto; padding:0 40px;">
+    <h2 class="section-title">📄 Documents</h2>
+    <p style="color:var(--mid); font-size:14px; margin-bottom:28px;">Important society documents for residents. Click to view or download.</p>
+    <div class="docs-grid">
+
+      <div class="doc-card" onclick="window.open('https://raw.githubusercontent.com/medchalmlm/mlm/main/documents/Layout%20(Phase%201%20%26%202).pdf','_blank')">
+        <div class="doc-icon">🗺️</div>
+        <div class="doc-info">
+          <div class="doc-title">Society Site Map</div>
+          <div class="doc-desc">Layout plan &amp; site map of Metro Landmark (Phase 1 &amp; 2)</div>
+        </div>
+        <span class="doc-badge">PDF</span>
+      </div>
+
+      <div class="doc-card">
+        <div class="doc-icon">📋</div>
+        <div class="doc-info">
+          <div class="doc-title">Society Bylaws</div>
+          <div class="doc-desc">Rules &amp; regulations governing the society</div>
+        </div>
+        <span class="doc-badge">PDF</span>
+      </div>
+
+      <div class="doc-card">
+        <div class="doc-icon">🏦</div>
+        <div class="doc-info">
+          <div class="doc-title">Maintenance Invoice</div>
+          <div class="doc-desc">Monthly maintenance bill template</div>
+        </div>
+        <span class="doc-badge">PDF</span>
+      </div>
+
+      <div class="doc-card">
+        <div class="doc-icon">📝</div>
+        <div class="doc-info">
+          <div class="doc-title">Tenant Registration Form</div>
+          <div class="doc-desc">Mandatory form for new tenant move-in</div>
+        </div>
+        <span class="doc-badge">Form</span>
+      </div>
+
+      <div class="doc-card">
+        <div class="doc-icon">🗳️</div>
+        <div class="doc-info">
+          <div class="doc-title">AGM Minutes — March 2026</div>
+          <div class="doc-desc">Meeting minutes &amp; committee election results</div>
+        </div>
+        <span class="doc-badge">PDF</span>
+      </div>
+
+      <div class="doc-card">
+        <div class="doc-icon">🔖</div>
+        <div class="doc-info">
+          <div class="doc-title">Vehicle Sticker Request</div>
+          <div class="doc-desc">Apply for society vehicle entry sticker</div>
+        </div>
+        <span class="doc-badge">Form</span>
+      </div>
+
+      <div class="doc-card">
+        <div class="doc-icon">📞</div>
+        <div class="doc-info">
+          <div class="doc-title">Resident Directory</div>
+          <div class="doc-desc">Contact list of society residents</div>
+        </div>
+        <span class="doc-badge">Members Only</span>
+      </div>
+
+    </div>
+    <p style="margin-top:20px; font-size:12px; color:#aaa; text-align:center;">To request a document, contact the secretary at Medchalmlm&#64;gmail.com or WhatsApp 80086 55428</p>
+  </div>
+</section>
+
+<!-- EMERGENCY CONTACTS -->
+<div id="emergency">
+  <div class="inner">
+    <h2 class="section-title">☎️ Emergency Contacts</h2>
+    <div class="emergency-grid">
+      <div class="em-card fire">
+        <div class="em-icon">🔥</div>
+        <div class="em-label">Fire Emergency</div>
+        <div class="em-name">Hyderabad Fire</div>
+        <div class="em-number">101</div>
+      </div>
+      <div class="em-card medical">
+        <div class="em-icon">🚑</div>
+        <div class="em-label">Ambulance</div>
+        <div class="em-name">Emergency Medical</div>
+        <div class="em-number">108</div>
+      </div>
+      <div class="em-card electric">
+        <div class="em-icon">⚡</div>
+        <div class="em-label">Electricity Fault</div>
+        <div class="em-name">TSSPDCL Helpline</div>
+        <div class="em-number">1912</div>
+      </div>
+    </div>
+
+    <!-- COMPLAINT LINK -->
+    <div style="margin-top:28px;text-align:center;">
+      <a href="https://wa.me/918008655428?text=Hello%20Metro%20Landmark%20Housing%20Society%3A%20" target="_blank"
+         style="display:inline-flex;align-items:center;gap:10px;background:#25D366;color:white;padding:12px 28px;border-radius:30px;font-weight:700;font-size:14px;text-decoration:none;box-shadow:0 4px 14px rgba(37,211,102,0.35);">
+        💬 Reach out to us on WhatsApp
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <strong>Metro Landmark Housing Society</strong><br/>
+  Survey Nos. 1088 &amp; 1089, Medchal – 501401, Telangana<br/>
+  📞 <a href="tel:+918008655428" style="color:rgba(255,255,255,0.6);">80086 55428</a> &nbsp;|&nbsp; ✉️ <a href="mailto:Medchalmlm@gmail.com" style="color:rgba(255,255,255,0.6);">Medchalmlm&#64;gmail.com</a><br/>
+  <span style="opacity:0.5;font-size:11px;">© 2026 Metro Landmark Housing Society. All rights reserved.</span>
+</footer>
+
+<script>
+  // Photo preview
+  function previewPhotos(input, gridId) {
+    const grid = document.getElementById(gridId);
+    const placeholder = input.parentElement.querySelector('.upload-placeholder');
+    const files = Array.from(input.files);
+    files.forEach(file => {
+      const reader = new FileReader();
+      reader.onload = e => {
+        const img = document.createElement('img');
+        img.src = e.target.result;
+        grid.appendChild(img);
+      };
+      reader.readAsDataURL(file);
+    });
+  
